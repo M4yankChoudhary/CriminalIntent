@@ -1,0 +1,30 @@
+First, the RecyclerView asks how
+many objects are in the list by calling the
+adapter’s getItemCount() method.
+Then the RecyclerView calls the
+adapter’s
+onCreateViewHolder(ViewGroup
+int) method to create a new
+ViewHolder, along with its juicy
+payload: a View to display.
+Finally, the RecyclerView calls
+onBindViewHolder(ViewHolder,
+int). The RecyclerView will pass
+a ViewHolder into this method along
+with the position. The adapter will look
+up the model data for that position and
+bind it to the ViewHolder’s View. To
+bind it, the adapter fills in the View to
+reflect the data in the model object.
+After this process is complete,
+RecyclerView will place a list item
+on the screen. Note that
+onCreateViewHolder(ViewGroup
+int) will happen a lot less often than
+onBindViewHolder(ViewHolder,
+int). Once enough ViewHolders
+have been created, RecyclerView
+stops calling
+onCreateViewHolder(...). Instead,
+it saves time and memory by recycling
+old ViewHolders.
