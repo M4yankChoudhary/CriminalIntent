@@ -1,5 +1,7 @@
 package me.mayankchoudhary.criminalintent;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,15 +17,22 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.io.Serializable;
+import java.util.UUID;
+import static me.mayankchoudhary.criminalintent.RecyclerView.CrimeListAdapter.EXTRA_CRIME;
 
 //CrimeFragment is a controller that
 //interacts with model and view objects.
 public class CrimeFragment extends Fragment {
 
-    private Crime crime;
+//    private Crime crime;
+    Crime crime = null;
     private EditText title;
     private Button button;
     private CheckBox checkBox;
+    private Object obj;
 
     public CrimeFragment() {
         // Required empty public constructor
@@ -32,7 +41,12 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        crime = new Crime();
+//        crime = new Crime();
+        obj = getActivity().getIntent()
+                        .getSerializableExtra(EXTRA_CRIME);
+        if(obj instanceof Crime){
+            crime = (Crime) obj;
+        }
     }
 
     @Override
@@ -60,8 +74,10 @@ public class CrimeFragment extends Fragment {
 
             }
         });
+        title.setText(crime.getTitle());
         checkBox = v.findViewById(R.id.solved_or_not);
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> crime.setSolved(isChecked));
+        checkBox.setChecked(crime.isSolved());
         // The third
         //parameter tells the layout inflater
         //whether to add the inflated view to the
